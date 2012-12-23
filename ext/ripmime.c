@@ -1,4 +1,4 @@
-#include "cripmime.h"
+#include "ripmime.h"
 
 static VALUE rb_mRipmime;
 static VALUE rb_eRipmimeError;
@@ -75,7 +75,7 @@ static VALUE ruby_ripmime_decode(VALUE self, VALUE mailpack, VALUE outputdir) {
   return 0;
 }
 
-void Init_cripmime() {
+void Init_ripmime() {
   rb_mRipmime = rb_define_module("Ripmime");
   rb_eRipmimeError = rb_define_class_under(rb_mRipmime, "Error", rb_eStandardError);
 
