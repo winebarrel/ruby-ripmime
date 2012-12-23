@@ -5,7 +5,7 @@ static VALUE rb_eRipmimeError;
 
 static VALUE ruby_ripmime_decode(VALUE self, VALUE mailpack, VALUE outputdir) {
   struct RIPMIME_object rm;
-  int ret, fd_stdout;
+  int ret, fd_stdout, fd_stderr;
   FILE *fp_err;
   VALUE errmsg;
   char buf[BUFSIZ];
@@ -22,7 +22,13 @@ static VALUE ruby_ripmime_decode(VALUE self, VALUE mailpack, VALUE outputdir) {
     rb_raise(rb_eRuntimeError, strerror(errno));
   }
 
+  fd_stderr = dup(fileno(stderr));
+
   if (dup2(fileno(fp_err), fileno(stdout)) == -1) {
+    rb_raise(rb_eRuntimeError, strerror(errno));
+  }
+
+  if (dup2(fileno(fp_err), fileno(stderr)) == -1) {
     rb_raise(rb_eRuntimeError, strerror(errno));
   }
 
@@ -34,7 +40,15 @@ static VALUE ruby_ripmime_decode(VALUE self, VALUE mailpack, VALUE outputdir) {
     rb_raise(rb_eRuntimeError, strerror(errno));
   }
 
+  if (dup2(fd_stdout, fileno(stderr)) == -1) {
+    rb_raise(rb_eRuntimeError, strerror(errno));
+  }
+
   if (close(fd_stdout) == -1) {
+    rb_warn(strerror(errno));
+  }
+
+  if (close(fd_stderr) == -1) {
     rb_warn(strerror(errno));
   }
 
@@ -54,15 +68,14 @@ static VALUE ruby_ripmime_decode(VALUE self, VALUE mailpack, VALUE outputdir) {
     if (RSTRING_LEN(errmsg) > 0) {
       rb_raise(rb_eRipmimeError, RSTRING_PTR(errmsg));
     } else {
-      // XXX:
-      rb_raise(rb_eRipmimeError, "XXX");
+      rb_raise(rb_eRipmimeError, "ripMIME decode errer (retval: %d)", ret);
     }
   }
   
   return 0;
 }
 
-void Init_crupmime() {
+void Init_cripmime() {
   rb_mRipmime = rb_define_module("Ripmime");
   rb_eRipmimeError = rb_define_class_under(rb_mRipmime, "Error", rb_eStandardError);
 
