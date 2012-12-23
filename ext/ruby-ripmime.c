@@ -45,7 +45,20 @@ static VALUE ruby_ripmime_decode(VALUE self, VALUE mailpack, VALUE outputdir) {
 
   RIPMIME_init(&rm);
 
+  // XXX: for strdup memory leak (ripMIME 1.4.0.10)
+  rm.outputdir = NULL;
+  rm.mailpack = NULL;
+
   ret = RIPMIME_decode(&rm, StringValuePtr(mailpack), StringValuePtr(outputdir));
+
+  // XXX: for strdup memory leak (ripMIME 1.4.0.10)
+  if (rm.outputdir) {
+    free(rm.outputdir);
+  }
+
+  if (rm.mailpack) {
+    free(rm.mailpack);
+  }
 
   if (dup2(fd_stdout, fileno(stdout)) == -1) {
     rb_raise(rb_eRuntimeError, strerror(errno));
