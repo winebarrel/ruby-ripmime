@@ -6,6 +6,8 @@ Ruby bindings for ripMIME.
 
 ripMIME extract attachments out of a MIME encoded email packages.
 
+see http://www.pldaniels.com/ripmime/
+
 == Source Code
 
 https://bitbucket.org/winebarrel/ruby-ripmime
