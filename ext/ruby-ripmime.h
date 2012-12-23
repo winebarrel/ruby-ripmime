@@ -15,4 +15,4 @@
 #define RSTRING_LEN(s) (RSTRING(s)->len)
 #endif
 
-#endif // __RUBY_RIPMIME_H__
+#endif //__RUBY_RIPMIME_H__

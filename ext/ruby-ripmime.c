@@ -1,4 +1,4 @@
-#include "ripmime.h"
+#include "ruby-ripmime.h"
 
 static VALUE rb_mRipmime;
 static VALUE rb_eRipmimeError;
