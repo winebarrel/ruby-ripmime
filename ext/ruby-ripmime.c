@@ -13,6 +13,14 @@ static VALUE ruby_ripmime_decode(VALUE self, VALUE mailpack, VALUE outputdir) {
   Check_Type(mailpack, T_STRING);
   Check_Type(outputdir, T_STRING);
 
+  if (RSTRING_LEN(mailpack) < 1) {
+    rb_raise(rb_eArgError, "mailpack is empty");
+  }
+
+  if (RSTRING_LEN(outputdir) < 1) {
+    rb_raise(rb_eArgError, "outputdir is empty");
+  }
+
   fp_err = tmpfile();
 
   if (fp_err == NULL) {
