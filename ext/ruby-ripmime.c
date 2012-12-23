@@ -10,6 +10,9 @@ static VALUE ruby_ripmime_decode(VALUE self, VALUE mailpack, VALUE outputdir) {
   VALUE errmsg;
   char buf[BUFSIZ];
 
+  Check_Type(mailpack, T_STRING);
+  Check_Type(outputdir, T_STRING);
+
   fp_err = tmpfile();
 
   if (fp_err == NULL) {
