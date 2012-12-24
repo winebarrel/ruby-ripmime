@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name              = 'ruby-ripmime'
-  spec.version           = '0.1.2'
+  spec.version           = '0.1.3'
   spec.summary           = 'Ruby binding for ripMIME.'
   spec.description       = 'Ruby binding for ripMIME.'
   spec.files             = Dir.glob('ext/{*.c,*.h,extconf.rb}') + %w(README)

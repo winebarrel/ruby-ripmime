@@ -96,7 +96,7 @@ static VALUE ruby_ripmime_decode(VALUE self, VALUE mailpack, VALUE outputdir) {
     }
   }
   
-  return 0;
+  return Qnil;
 }
 
 void Init_ripmime() {
