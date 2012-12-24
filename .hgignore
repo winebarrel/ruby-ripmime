@@ -6,3 +6,4 @@ Makefile
 *.so
 *.log
 *.orig
+*.bundle

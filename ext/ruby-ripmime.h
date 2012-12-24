@@ -15,4 +15,6 @@
 #define RSTRING_LEN(s) (RSTRING(s)->len)
 #endif
 
+int MIME_set_name_by_type(int level);
+
 #endif //__RUBY_RIPMIME_H__
