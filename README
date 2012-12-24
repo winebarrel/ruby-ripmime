@@ -36,11 +36,11 @@ gem install ruby-ripmime
         size = File.stat(file).size
         puts "#{size}\t#{file}"
       end
-     # (output)
-     # 28      /tmp/d20121223-23507-zhwjuj/textfile1
-     # 9941    /tmp/d20121223-23507-zhwjuj/220px-Shiitake_Meshi_Ekiben.JPG
-     # 0       /tmp/d20121223-23507-zhwjuj/textfile0
-     # 16361   /tmp/d20121223-23507-zhwjuj/234px-Shiitakegrowing.jpg
+      # (output)
+      # 28      /tmp/d20121223-23507-zhwjuj/text-plain1
+      # 9941    /tmp/d20121223-23507-zhwjuj/220px-Shiitake_Meshi_Ekiben.JPG
+      # 0       /tmp/d20121223-23507-zhwjuj/multipart-mixed0
+      # 16361   /tmp/d20121223-23507-zhwjuj/234px-Shiitakegrowing.jpg
     end
   ensure
     mailpack.close
