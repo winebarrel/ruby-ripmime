@@ -21,6 +21,14 @@ static VALUE ruby_ripmime_decode(VALUE self, VALUE mailpack, VALUE outputdir) {
     rb_raise(rb_eArgError, "outputdir is empty");
   }
 
+  if (rb_funcall(rb_cFile, rb_intern("exist?"), 1, mailpack) != Qtrue) {
+    rb_raise(rb_eArgError, "no such file: %s", RSTRING_PTR(mailpack));
+  }
+
+  if (rb_funcall(rb_cFile, rb_intern("exist?"), 1, outputdir) != Qtrue) {
+    rb_funcall(rb_cDir, rb_intern("mkdir"), 1, outputdir);
+  }
+
   fp_err = tmpfile();
 
   if (fp_err == NULL) {
@@ -37,7 +45,7 @@ static VALUE ruby_ripmime_decode(VALUE self, VALUE mailpack, VALUE outputdir) {
   rm.outputdir = NULL;
   rm.mailpack = NULL;
 
-  ret = RIPMIME_decode(&rm, StringValuePtr(mailpack), StringValuePtr(outputdir));
+  ret = RIPMIME_decode(&rm, RSTRING_PTR(mailpack), RSTRING_PTR(outputdir));
 
   // XXX: for strdup memory leak (ripMIME 1.4.0.10)
   if (rm.outputdir) {
