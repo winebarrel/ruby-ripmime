@@ -27,24 +27,11 @@ static VALUE ruby_ripmime_decode(VALUE self, VALUE mailpack, VALUE outputdir) {
     rb_raise(rb_eRuntimeError, strerror(errno));
   }
 
-  fd_stdout = dup(fileno(stdout));
-
-  if (fd_stdout == -1) {
-    rb_raise(rb_eRuntimeError, strerror(errno));
-  }
-
-  fd_stderr = dup(fileno(stderr));
-
-  if (dup2(fileno(fp_err), fileno(stdout)) == -1) {
-    rb_raise(rb_eRuntimeError, strerror(errno));
-  }
-
-  if (dup2(fileno(fp_err), fileno(stderr)) == -1) {
-    rb_raise(rb_eRuntimeError, strerror(errno));
-  }
-
   RIPMIME_init(&rm);
+
   MIME_set_name_by_type(1);
+  LOGGER_set_output_mode(_LOGGER_FILE);
+  LOGGER_set_output_file(fp_err);
 
   // XXX: for strdup memory leak (ripMIME 1.4.0.10)
   rm.outputdir = NULL;
@@ -60,22 +47,6 @@ static VALUE ruby_ripmime_decode(VALUE self, VALUE mailpack, VALUE outputdir) {
   // XXX: for strdup memory leak (ripMIME 1.4.0.10)
   if (rm.mailpack) {
     free(rm.mailpack);
-  }
-
-  if (dup2(fd_stdout, fileno(stdout)) == -1) {
-    rb_raise(rb_eRuntimeError, strerror(errno));
-  }
-
-  if (dup2(fd_stderr, fileno(stderr)) == -1) {
-    rb_raise(rb_eRuntimeError, strerror(errno));
-  }
-
-  if (close(fd_stdout) == -1) {
-    rb_warn(strerror(errno));
-  }
-
-  if (close(fd_stderr) == -1) {
-    rb_warn(strerror(errno));
   }
 
   rewind(fp_err);
