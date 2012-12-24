@@ -66,7 +66,7 @@ static VALUE ruby_ripmime_decode(VALUE self, VALUE mailpack, VALUE outputdir) {
     rb_raise(rb_eRuntimeError, strerror(errno));
   }
 
-  if (dup2(fd_stdout, fileno(stderr)) == -1) {
+  if (dup2(fd_stderr, fileno(stderr)) == -1) {
     rb_raise(rb_eRuntimeError, strerror(errno));
   }
 
